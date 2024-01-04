@@ -11,23 +11,25 @@ jobs:
       runs-on: ubuntu-latest
       # Map a step output to a job output
       outputs:
-        output1: ${{ steps.step1.outputs.test1 }}       # steps.<setp_id>.outputs.<variable_name>
-        output2: ${{ steps.step2.outputs.test2 }}       
+        # output1: ${{ steps.step1.outputs.test1 }}       # steps.<setp_id>.outputs.<variable_name>
+        # output2: ${{ steps.step2.outputs.test2 }}      
+        output3: ${{ steps.step3.outputs.res }}   
       steps:
-      - id: step1                                       # step1 is the setp id
-        run: echo "test1=hello" >> $GITHUB_OUTPUT       # test1 is the variable name
-      - id: step2                                       # step2 is the setp id
-        run: echo "test2=world" >> $GITHUB_OUTPUT       # test2 is the variable name
-      - name: print
-        run: echo ${{ steps.step1.outputs.test1 }} ${{ steps.step2.outputs.test2 }} 
+      # - id: step1                                       # step1 is the setp id
+      #   run: echo "test1=hello" >> $GITHUB_OUTPUT       # test1 is the variable name
+      # - id: step2                                       # step2 is the setp id
+      #   run: echo "test2=world" >> $GITHUB_OUTPUT       # test2 is the variable name
+      # - name: print
+      #   run: echo ${{ steps.step1.outputs.test1 }} ${{ steps.step2.outputs.test2 }} 
       - id: step3
         run: |
           touch new1
           res=$( [ -d "new1" ] && echo "true" || echo "false" ) >> $GITHUB_OUTPUT
+          echo $res
       - name: print res    
         run: echo ${{ steps.step3.outputs.res }} 
-    job2:
-      runs-on: ubuntu-latest
-      needs: job1
-      steps:
-      - run: echo ${{needs.job1.outputs.output1}} ${{needs.job1.outputs.output2}}
+    # job2:
+    #   runs-on: ubuntu-latest
+    #   needs: job1
+    #   steps:
+    #   - run: echo ${{needs.job1.outputs.output1}} ${{needs.job1.outputs.output2}}
