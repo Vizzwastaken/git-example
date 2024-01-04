@@ -23,7 +23,7 @@ jobs:
       - id: step3
         run: |
           touch new1
-          res= if [ -d new1 ] >> $GITHUB_OUTPUT
+          res=$( [ -d "new1" ] && echo "true" || echo "false" ) >> $GITHUB_OUTPUT
           echo ${{ steps.step3.outputs.res }} 
     job2:
       runs-on: ubuntu-latest
