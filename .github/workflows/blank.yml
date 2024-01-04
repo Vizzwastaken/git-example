@@ -24,8 +24,8 @@ jobs:
       - id: step3
         run: |
           touch new1
-          res=$( [ -d "new1" ] && echo "true" || echo "false" ) >> $GITHUB_OUTPUT
-          echo $res
+          echo res=$( [ -d "new1" ] && echo "true" || echo "false" ) 
+          echo $res >> $GITHUB_OUTPUT
       - name: print res    
         run: echo ${{ steps.step3.outputs.res }} 
     # job2:
