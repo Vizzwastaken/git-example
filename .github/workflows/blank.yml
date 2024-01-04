@@ -20,6 +20,11 @@ jobs:
         run: echo "test2=world" >> $GITHUB_OUTPUT       # test2 is the variable name
       - name: print
         run: echo ${{ steps.step1.outputs.test1 }} ${{ steps.step2.outputs.test2 }} 
+      - id: step3
+        run: |
+          touch new1
+          res= if [ -d new1 ] >> $GITHUB_OUTPUT
+          echo ${{ steps.step3.outputs.res }} 
     job2:
       runs-on: ubuntu-latest
       needs: job1
