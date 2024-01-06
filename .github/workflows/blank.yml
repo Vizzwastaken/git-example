@@ -12,7 +12,7 @@ jobs:
       runs-on: ubuntu-latest
       steps:
         - name: print
-          run: echo "var is ${{ env.var }}
+          run: echo "var is ${{ env.var }}"
         - name: use
           run: |
             test=$var
