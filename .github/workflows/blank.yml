@@ -7,28 +7,37 @@ on:
   workflow_dispatch:
 
 jobs:
-    job1:
+    build:
       runs-on: ubuntu-latest
-      # Map a step output to a job output
-      outputs:
-        output1: ${{ steps.step1.outputs.test1 }}       # steps.<setp_id>.outputs.<variable_name>
-        output2: ${{ steps.step2.outputs.test2 }}      
-        output3: ${{ steps.step3.outputs.res }}   
+      outputs:     
+        file: ${{ steps.file_name.outputs.res }} 
+
       steps:
-      - id: step1                                       # step1 is the setp id
-        run: echo "test1=hello" >> $GITHUB_OUTPUT       # test1 is the variable name
-      - id: step2                                       # step2 is the setp id
-        run: echo "test2=world" >> $GITHUB_OUTPUT       # test2 is the variable name
-      - name: print
-        run: echo ${{ steps.step1.outputs.test1 }} ${{ steps.step2.outputs.test2 }} 
-      - id: step3
+      - id: file_name
         run: |
           touch new1
-          echo "res=$( [ -d "new1" ] && echo "true" || echo "false" )" >> $GITHUB_OUTPUT
+          echo "res=$( [ -f "new1" ] && echo "true" || echo "false" )" >> $GITHUB_OUTPUT
       - name: print res    
-        run: echo ${{ steps.step3.outputs.res }} 
-    job2:
+        run: echo ${{ steps.file_name.outputs.res }} 
+
+      - name: file contents
+        run: echo "Hello World" > $res
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: my-artifact                
+          path: ./res  
+
+    publish:
       runs-on: ubuntu-latest
-      needs: job1
+      needs: build
+
       steps:
-      - run: echo ${{needs.job1.outputs.output1}} ${{needs.job1.outputs.output2}} ${{needs.job1.outputs.output3}}
+        - name: Download artifact
+          uses: actions/download-artifact@v4
+          with:
+            name: my-artifact 
+
+        - name: Print Contents
+          run: car $res
