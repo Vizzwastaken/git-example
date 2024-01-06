@@ -23,7 +23,7 @@ jobs:
         run: echo ${{ steps.file_name.outputs.res }} 
 
       - name: file contents
-        run: echo "Hello World" >> $new1
+        run: echo "Hello World" >> new1
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
