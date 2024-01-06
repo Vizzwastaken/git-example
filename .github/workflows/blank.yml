@@ -21,13 +21,13 @@ jobs:
         run: echo ${{ steps.file_name.outputs.res }} 
 
       - name: file contents
-        run: echo "Hello World" > $res
+        run: echo "Hello World" > $new1
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: my-artifact                
-          path: ./res  
+          path: ./new1  
 
     publish:
       runs-on: ubuntu-latest
@@ -40,4 +40,4 @@ jobs:
             name: my-artifact 
 
         - name: Print Contents
-          run: car $res
+          run: car $new1
