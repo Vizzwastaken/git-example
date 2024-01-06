@@ -42,4 +42,4 @@ jobs:
             name: my-artifact 
 
         - name: Print Contents
-          run: car $new1
+          run: cat $new1
