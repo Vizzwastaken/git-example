@@ -5,41 +5,51 @@ on:
   pull_request:
     branches: [ "main" ]
   workflow_dispatch:
-
+env:
+  var: "Hello"
 jobs:
     build:
       runs-on: ubuntu-latest
-      outputs:     
-        file: ${{ steps.file_name.outputs.res }} 
-
       steps:
-      - id: file_name
-        name: create file
-        run: |
-          touch new1
-          echo "res=$( [ -f "new1" ] && echo "true" || echo "false" )" >> $GITHUB_OUTPUT
+        - name: print
+          run: echo "var is ${{ env.var }}
+        - name: use
+          run: |
+            test=$var
+            echo $test
+      
+      # runs-on: ubuntu-latest
+      # outputs:     
+      #   file: ${{ steps.file_name.outputs.res }} 
+
+      # steps:
+      # - id: file_name
+      #   name: create file
+      #   run: |
+      #     touch new1
+      #     echo "res=$( [ -f "new1" ] && echo "true" || echo "false" )" >> $GITHUB_OUTPUT
           
-      - name: print file    
-        run: echo ${{ steps.file_name.outputs.res }} 
+      # - name: print file    
+      #   run: echo ${{ steps.file_name.outputs.res }} 
 
-      - name: file contents
-        run: echo "Hello World" >> new1
+      # - name: file contents
+      #   run: echo "Hello World" >> new1
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: my-artifact                
-          path: ./new1  
+      # - name: Upload artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: my-artifact                
+      #     path: ./new1  
 
-    publish:
-      runs-on: ubuntu-latest
-      needs: build
+    # publish:
+    #   runs-on: ubuntu-latest
+    #   needs: build
 
-      steps:
-        - name: Download artifact
-          uses: actions/download-artifact@v4
-          with:
-            name: my-artifact 
+    #   steps:
+    #     - name: Download artifact
+    #       uses: actions/download-artifact@v4
+    #       with:
+    #         name: my-artifact 
 
-        - name: Print Contents
-          run: cat $new1
+    #     - name: Print Contents
+    #       run: cat $new1
